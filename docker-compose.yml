@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # Laravel (PHP)
+  laravel:
+    build:
+      context: ./laravel
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    volumes:
+      - ./laravel/.env:/var/www/html/.env
+      - ./laravel:/var/www/html
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=base64:Ld+Um9GzzXkYwlFsVrPkCSmM3W8B06n/TKnz1PGkthM=
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=travel_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+    networks:
+      - laravel_react_net
+
+  # React (Node.js)
+  react:
+    build:
+      context: ./react
+      dockerfile: Dockerfile
+    container_name: react_app
+    volumes:
+      - ./react:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - laravel_react_net
+
+  # Nginx
+  nginx:
+    image: nginx:latest
+    container_name: nginx_server
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./laravel:/var/www/html
+      - ./react/build:/usr/share/nginx/html
+    ports:
+      - "80:80"
+    depends_on:
+      - laravel
+      - react
+    networks:
+      - laravel_react_net
+
+  # MySQL Database
+  db:
+    image: mysql/mysql-server:latest
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: travel_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - laravel_react_net
+
+networks:
+  laravel_react_net:
+    driver: bridge
+
+volumes:
+  dbdata:
