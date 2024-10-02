@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('travel_plans', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('destination');
+            $table->string('city');
             $table->date('travel_date');
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Userモデルとのリレーション
         });

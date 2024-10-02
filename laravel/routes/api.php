@@ -17,9 +17,11 @@ use App\Http\Controllers\ApiController;
 |
 */
 
-Route::post('/travel-plans/store', [TravelPlanController::class, 'store']);
-Route::get('/travel-plans/{id}', [TravelPlanController::class, 'show']);
-Route::get('/weather/{city}', [ApiController::class, 'getWeather'])->name('weather');
+// APIルート
+Route::middleware(['auth:api'])->group(function () {
+    Route::post('/travel-plans/store', [TravelPlanController::class, 'store']);
+    Route::get('/weather', [ApiController::class, 'getFutureWeather'])->name('weather');
+});
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

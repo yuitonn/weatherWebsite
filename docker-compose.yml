@@ -22,7 +22,7 @@ services:
       - DB_DATABASE=travel_db
       - DB_USERNAME=root
       - DB_PASSWORD=root
-      - OPENWEATHERMAP_API_KEY=5242a6440ff1ea140f1a96f9cd816531
+      - WEATHERAPI_KEY=7b0cd8b5e783451a8fa95333240110
     networks:
       - laravel_react_net
 

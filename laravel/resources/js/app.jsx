@@ -1,15 +1,35 @@
 import './bootstrap.js'; // Laravelの初期化スクリプト
-
 import Alpine from 'alpinejs'; // Alpine.jsのインポート
-window.Alpine = Alpine; // Alpine.jsをウィンドウオブジェクトに登録
-Alpine.start(); // Alpine.jsの初期化
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import WeatherDisplay from './WeatherDisplay.jsx'; // WeatherDisplayコンポーネントのパス
+import MyDisplay from './MyDisplay.jsx';
 
-const city = document.getElementById('weather-display')?.getAttribute('data-city');
+// Alpine.jsの初期化
+window.Alpine = Alpine;
+Alpine.start();
 
-if (city) {
-    ReactDOM.createRoot(document.getElementById('weather-display')).render(<WeatherDisplay city={city} />);
+// WeatherDisplayコンポーネントをレンダリング
+const weatherDisplayElement = document.getElementById('weather-display');
+if (weatherDisplayElement) {
+    ReactDOM.createRoot(weatherDisplayElement).render(
+        <WeatherDisplay />
+    );
+}
+
+// MyDisplayコンポーネントをレンダリング
+const myDisplayElement = document.getElementById('my-display');
+if (myDisplayElement) {
+    const userCities = myDisplayElement.dataset.city.split(','); // カンマ区切りで分割
+    const userTravelDates = myDisplayElement.dataset.travelDate.split(','); // カンマ区切りで分割
+
+    console.log('Cities:', userCities);
+    console.log('Travel Dates:', userTravelDates);
+
+    ReactDOM.createRoot(myDisplayElement).render(
+        <MyDisplay 
+            userCities={userCities} 
+            userTravelDates={userTravelDates} 
+        />
+    );
 }

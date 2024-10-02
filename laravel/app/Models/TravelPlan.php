@@ -9,7 +9,7 @@ class TravelPlan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['destination', 'travel_date', 'user_id'];
+    protected $fillable = ['city', 'destination', 'travel_date', 'user_id'];
 
     public function user()
     {
