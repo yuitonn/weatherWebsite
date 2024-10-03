@@ -8,7 +8,8 @@
     <div id="app-root">
         <div id="my-display" 
             data-city="{{ implode(',', $cities) }}" 
-            data-travel-date="{{ implode(',', $travelDates) }}">
+            data-travel-date="{{ implode(',', $travelDates) }}"
+            data-travel-id="{{ implode(',', $travelPlansIds) }}">
         </div>
     </div>
 

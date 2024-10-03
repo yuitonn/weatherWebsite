@@ -26,7 +26,7 @@ class TravelPlanController extends Controller
             'user_id' => $userId,
         ]);
 
-        return response()->json($travelPlan, 201);
+        return response()->json(['message' => 'Travel plan created successfully', 'redirect' => route('show')], 201);
     }
 
     public function show()
@@ -36,10 +36,25 @@ class TravelPlanController extends Controller
         // ユーザーに関連する旅行プランを取得
         $travelPlans = TravelPlan::where('user_id', $userId)->get();
 
-        // 旅行プランが存在する場合、各プランのcityとtravel_dateを取得し、存在しない場合は空の配列を設定
+        // 各プランのcity、travel_date、idを取得
         $cities = $travelPlans->pluck('city')->toArray();
         $travelDates = $travelPlans->pluck('travel_date')->toArray();
+        $travelPlansIds = $travelPlans->pluck('id')->toArray(); // IDを取得
 
-        return view('show', compact('cities', 'travelDates')); // ビューにデータを渡す
+        return view('show', compact('cities', 'travelDates', 'travelPlansIds')); // ビューにデータを渡す
+    }
+
+    public function destroy($id)
+    {
+        $travelPlan = TravelPlan::findOrFail($id);
+        
+        // ユーザーの権限を確認（オプション）
+        if ($travelPlan->user_id !== auth()->id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $travelPlan->delete();
+
+        return response()->json(['message' => 'Travel plan deleted successfully'], 200);
     }
 }

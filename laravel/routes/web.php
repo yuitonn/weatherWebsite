@@ -29,6 +29,12 @@ Route::get('/travel-plans/my', [TravelPlanController::class, 'show'])
     ->middleware(['auth', 'verified'])
     ->name('show');
 
+Route::delete('/travel-plans/{id}', [TravelPlanController::class, 'destroy'])
+->middleware(['auth', 'verified'])
+->name('destroy');
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -49,10 +49,10 @@ const WeatherDisplay = () => {
 
     const saveTravelPlan = async (city, travelDate) => {
         const token = localStorage.getItem('token'); // トークンを取得
-
+    
         try {
             console.log('Saving travel plan:', { city, travel_date: travelDate }); // デバッグ用
-            await axios.post('/api/travel-plans/store', {
+            const response = await axios.post('/api/travel-plans/store', {
                 city: city,
                 travel_date: travelDate,
             }, {
@@ -60,7 +60,12 @@ const WeatherDisplay = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            alert('旅行プランが保存されました。');
+    
+            if (response.status === 201) { // ステータスが201であることを確認
+                alert('旅行プランが保存されました。');
+                // リダイレクトする
+                window.location.href = response.data.redirect; // ダッシュボードへリダイレクト
+            }
         } catch (err) {
             console.error('Failed to save travel plan:', err);
             alert('旅行プランの保存に失敗しました。');
@@ -98,7 +103,7 @@ const WeatherDisplay = () => {
                         type="text"
                         value={city}
                         onChange={handleCityChange}
-                        placeholder="行き先場所"
+                        placeholder="お出かけ場所"
                         required
                         className='px-24 py-3'
                     />
@@ -109,7 +114,7 @@ const WeatherDisplay = () => {
                         min={minDate}
                         max={maxDateStr}
                         required
-                        className='py-3 px-4'
+                        className='py-3 px-2'
                     />
                     <button 
                         type="submit" 
@@ -119,8 +124,8 @@ const WeatherDisplay = () => {
             </BgDiv>
             {weatherData && (
                 <div className='text-center bg-white pt-8 px-8'>
-                    <p>お出かけ場所: {city}</p>
-                    <p>日にち: {travelDate}</p>
+                    <p className='text-2xl'>お出かけ場所: {city}</p>
+                    <p className='text-xl'>日にち: {travelDate}</p>
                     <div className='mt-2 mb-6'>
                         <input 
                             type="checkbox" 

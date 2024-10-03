@@ -22,6 +22,8 @@ const myDisplayElement = document.getElementById('my-display');
 if (myDisplayElement) {
     const userCities = myDisplayElement.dataset.city.split(','); // カンマ区切りで分割
     const userTravelDates = myDisplayElement.dataset.travelDate.split(','); // カンマ区切りで分割
+    const userTravelPlanIds = myDisplayElement.dataset.travelId.split(','); // カンマ区切りで分割
+
 
     console.log('Cities:', userCities);
     console.log('Travel Dates:', userTravelDates);
@@ -30,6 +32,7 @@ if (myDisplayElement) {
         <MyDisplay 
             userCities={userCities} 
             userTravelDates={userTravelDates} 
+            userTravelPlanIds={userTravelPlanIds} // IDを渡す
         />
     );
 }
