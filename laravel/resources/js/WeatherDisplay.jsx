@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import styled from 'styled-components'; // styled-componentsをインポート
+
+const BgDiv = styled.div`
+    background-image: url('/img/background.png');
+    background-size: cover; 
+    background-position: center; 
+    height: 400px; 
+    width: 100%;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+`;
+
 
 const WeatherDisplay = () => {
     const [city, setCity] = useState('');
@@ -74,43 +87,52 @@ const WeatherDisplay = () => {
         "Cloudy": "🌥️",
     };
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (loading) return <div className=' bg-white'>Loading...</div>;
+    if (error) return <div className=' bg-white'>Error: {error}</div>;
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    value={city}
-                    onChange={handleCityChange}
-                    placeholder="行き先場所"
-                    required
-                />
-                <input
-                    type="date"
-                    value={travelDate}
-                    onChange={handleDateChange}
-                    min={minDate}
-                    max={maxDateStr}
-                    required
-                />
-                <button type="submit">{weatherData ? '追加' : '表示'}</button>
-            </form>
-            {weatherData && (
-                <div>
-                    <p>行き先: {city}</p>
-                    <p>お出かけ日: {travelDate}</p>
-                    <input 
-                        type="checkbox" 
-                        checked={isSaveChecked} 
-                        onChange={handleCheckboxChange} 
+        <>
+            <BgDiv className='justify-center mr-24'>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        value={city}
+                        onChange={handleCityChange}
+                        placeholder="行き先場所"
+                        required
+                        className='px-24 py-3'
                     />
-                    <label>場所と日にちを保存する</label>
-                    <ul>
+                    <input
+                        type="date"
+                        value={travelDate}
+                        onChange={handleDateChange}
+                        min={minDate}
+                        max={maxDateStr}
+                        required
+                        className='py-3 px-4'
+                    />
+                    <button 
+                        type="submit" 
+                        className='ml-4 border px-3 py-2 rounded bg-white'
+                    >{weatherData ? '追加' : '表示'}</button>
+                </form>
+            </BgDiv>
+            {weatherData && (
+                <div className='text-center bg-white pt-8 px-8'>
+                    <p>お出かけ場所: {city}</p>
+                    <p>日にち: {travelDate}</p>
+                    <div className='mt-2 mb-6'>
+                        <input 
+                            type="checkbox" 
+                            checked={isSaveChecked} 
+                            onChange={handleCheckboxChange} 
+                        />
+                        <label>Myデータに保存する</label>
+                    </div>
+                    <ul className='bg-white'>
                         {weatherData.map((forecast, index) => (
-                            <li key={index} className="border border-gray-300 p-2 mb-2 rounded">
-                                <p>日にち: {formatDate(forecast.date)}</p>
+                            <li key={index} className="border border-gray-300 p-4 mb-2 rounded my-4 text-center bg-white">
+                                <p className='pb-2'>日にち: {formatDate(forecast.date)}</p>
                                 <p>最高気温: {forecast.max_temperature} °C</p>
                                 <p>最低気温: {forecast.min_temperature} °C</p>
                                 <p>天気: {forecast.weather} {weatherEmojis[forecast.weather]}</p>
@@ -120,8 +142,9 @@ const WeatherDisplay = () => {
                         ))}
                     </ul>
                 </div>
-            )}
-        </div>
+            )}        
+        </>
+        
     );
 };
 

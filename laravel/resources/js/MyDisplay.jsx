@@ -56,12 +56,12 @@ const MyDisplay = ({ userCities, userTravelDates }) => {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div>
+        <div className='px-8 bg-white'>
             {weatherData.map((data, index) => (
-                <div key={index}>
-                    <h3>行き先: {userCities[index]}</h3>
-                    <p>お出かけ日: {userTravelDates[index]}</p>
-                    <ul>
+                <div key={index} className='bg-white'>
+                    <h3>お出かけ場所: {userCities[index]}</h3>
+                    <p className='mb-4'>日にち: {userTravelDates[index]}</p>
+                    <ul className='pb-12'>
                         {data.map((forecast, forecastIndex) => (
                             <li key={forecastIndex} className="border border-gray-300 p-2 mb-2 rounded">
                                 <p>日にち: {formatDate(forecast.date)}</p>
@@ -80,3 +80,5 @@ const MyDisplay = ({ userCities, userTravelDates }) => {
 };
 
 export default MyDisplay;
+
+// 削除機能のボタン、フィルター

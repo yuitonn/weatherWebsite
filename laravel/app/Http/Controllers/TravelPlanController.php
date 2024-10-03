@@ -41,5 +41,5 @@ class TravelPlanController extends Controller
         $travelDates = $travelPlans->pluck('travel_date')->toArray();
 
         return view('show', compact('cities', 'travelDates')); // ビューにデータを渡す
-}
+    }
 }
