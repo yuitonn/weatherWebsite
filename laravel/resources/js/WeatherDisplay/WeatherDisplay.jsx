@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styled from 'styled-components'; // styled-componentsをインポート
+import styled from 'styled-components';
+import WeatherForm from './WeatherForm';
 
 const BgDiv = styled.div`
     background-image: url('/img/background.png');
@@ -13,26 +14,26 @@ const BgDiv = styled.div`
     align-items: center;
 `;
 
-
 const WeatherDisplay = () => {
-    const [city, setCity] = useState('');
     const [weatherData, setWeatherData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [travelDate, setTravelDate] = useState('');
     const [isSaveChecked, setIsSaveChecked] = useState(false);
+    const [city, setCity] = useState('');
+    const [travelDate, setTravelDate] = useState('');
 
-    const handleCityChange = (e) => setCity(e.target.value);
-    const handleDateChange = (e) => setTravelDate(e.target.value);
-    const handleCheckboxChange = (e) => setIsSaveChecked(e.target.checked);
+    const handleCheckboxChange = (e) => {
+        setIsSaveChecked(e.target.checked);
+    };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!city || !travelDate) return;
-
+    const handleSubmit = async (formCity, formTravelDate) => {
+        console.log('Received in WeatherDisplay:', formCity, formTravelDate); // 確認用
+        setCity(formCity); // 追加
+        setTravelDate(formTravelDate); // 追加
         setLoading(true);
+        
         try {
-            const response = await axios.get(`/api/weather?city=${city}&travel_date=${travelDate}`);
+            const response = await axios.get(`/api/weather?city=${formCity}&travel_date=${formTravelDate}`);
             setWeatherData(response.data);
             setError(null);
 
@@ -48,10 +49,10 @@ const WeatherDisplay = () => {
     };
 
     const saveTravelPlan = async (city, travelDate) => {
-        const token = localStorage.getItem('token'); // トークンを取得
-    
+        const token = localStorage.getItem('token');
+
         try {
-            console.log('Saving travel plan:', { city, travel_date: travelDate }); // デバッグ用
+            console.log('Saving travel plan:', { city, travel_date: travelDate });
             const response = await axios.post('/api/travel-plans/store', {
                 city: city,
                 travel_date: travelDate,
@@ -60,11 +61,10 @@ const WeatherDisplay = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-    
-            if (response.status === 201) { // ステータスが201であることを確認
+
+            if (response.status === 201) {
                 alert('旅行プランが保存されました。');
-                // リダイレクトする
-                window.location.href = response.data.redirect; // ダッシュボードへリダイレクト
+                window.location.href = response.data.redirect;
             }
         } catch (err) {
             console.error('Failed to save travel plan:', err);
@@ -92,35 +92,18 @@ const WeatherDisplay = () => {
         "Cloudy": "🌥️",
     };
 
-    if (loading) return <div className=' bg-white'>Loading...</div>;
-    if (error) return <div className=' bg-white'>Error: {error}</div>;
+    if (loading) return <div className='bg-white'>Loading...</div>;
+    if (error) return <div className='bg-white'>Error: {error}</div>;
 
     return (
         <>
-            <BgDiv className='justify-center mr-24'>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        value={city}
-                        onChange={handleCityChange}
-                        placeholder="お出かけ場所"
-                        required
-                        className='px-24 py-3'
-                    />
-                    <input
-                        type="date"
-                        value={travelDate}
-                        onChange={handleDateChange}
-                        min={minDate}
-                        max={maxDateStr}
-                        required
-                        className='py-3 px-2'
-                    />
-                    <button 
-                        type="submit" 
-                        className='ml-4 border px-3 py-2 rounded bg-white'
-                    >{weatherData ? '追加' : '表示'}</button>
-                </form>
+            <BgDiv className='justify-center mr-24 bg-white'>
+                <WeatherForm 
+                    onSubmit={handleSubmit} 
+                    minDate={minDate} 
+                    maxDateStr={maxDateStr} 
+                    weatherData={weatherData}
+                />
             </BgDiv>
             {weatherData && (
                 <div className='text-center bg-white pt-8 px-8'>
@@ -149,7 +132,6 @@ const WeatherDisplay = () => {
                 </div>
             )}        
         </>
-        
     );
 };
 

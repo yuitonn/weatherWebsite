@@ -2,8 +2,8 @@ import './bootstrap.js'; // Laravelの初期化スクリプト
 import Alpine from 'alpinejs'; // Alpine.jsのインポート
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import WeatherDisplay from './WeatherDisplay.jsx'; // WeatherDisplayコンポーネントのパス
-import MyDisplay from './MyDisplay.jsx';
+import WeatherDisplay from './WeatherDisplay/WeatherDisplay.jsx'; // WeatherDisplayコンポーネントのパス
+import MyDisplay from './MyDisplay/MyDisplay.jsx';
 
 // Alpine.jsの初期化
 window.Alpine = Alpine;
