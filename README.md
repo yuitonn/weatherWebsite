@@ -63,23 +63,26 @@ AWSを学んだ後に、より良いUIを考えるとともに実装しようと
   
   
 ## 初期設定
-  
-```.yml servis app volumes
+
+.yml servis app volumes  
+```
 - .env:/var/www/html/.env
 ```
 
-```Laravel bash
+Laravel bash  
+```
 cp .env.example .env
 php artisan config:clear
 
 composer install
 ```
 
-```React bash
+React bash  
+```
 npm install
 ```
 
-※環境変数はenv.exampleに書いてあります
+※環境変数はenv.exampleに書いてあります  
 ※Breezeは開発途中で導入したため、こちらもインストールしてください
   
   
