@@ -31,15 +31,15 @@ Search では検索欄があり、
 その画面に遷移すると、過去に追加したデータを元に自動で天気情報を取得します。  
 取得情報の下部には削除ボタンが表示され、このボタンを押すと情報がデータベース上から削除されます。  
   
-
-    
+  
+      
 ## 今後の追加実装
   
 出かける日程の前日にLINEで通知するという機能を、設計時点で構想していました。  
   
-* LINE Developers ConsoleでLINE公式アカウントを作成し、
-* LINE Loginを実装する
-* LINE Messaging APIをy取得してLaranelで機能を実装する
+* LINE Developers ConsoleでLINE公式アカウントを作成
+* LINE Loginを実装
+* LINE Messaging APIをy取得してLaranelで機能を実装
   
 しかし、開発環境では常時サーバーを建てることはできないため、  
 AWSを学んだ後に、より良いUIを考えるとともに実装しようと考えています。  
