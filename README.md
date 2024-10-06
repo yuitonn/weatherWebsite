@@ -41,7 +41,7 @@ Search では検索欄があり、
   
 * LINE Developers ConsoleでLINE公式アカウントを作成
 * LINE Loginを実装
-* LINE Messaging APIをy取得してLaranelで機能を実装
+* LINE Messaging APIを取得してLaranelで機能を実装
   
 しかし、開発環境では常時サーバーを建てることはできないため、  
 AWSを学んだ後に、より良いUIを考えるとともに実装しようと考えています。  
