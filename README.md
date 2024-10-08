@@ -86,8 +86,8 @@ React bash
 npm install
 ```
 
-※環境変数はenv.exampleに書いてあります  
-※Breezeは開発途中で導入したため、こちらもインストールしてください
+※環境変数はenv.exampleに書いてあります   
+※Breezeは開発途中で導入したため、こちらもインストールが必要です  
   
   
   
